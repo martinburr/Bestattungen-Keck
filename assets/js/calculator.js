@@ -137,10 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <span style="font-size: 0.85rem; opacity: 0.8; display: block;">${d.estimateLabel}</span>
             <span class="calc-price-display">ab € ${total.toLocaleString('de-DE')},-</span>
           </div>
-          <div style="display: flex; gap: 0.5rem;">
-            ${currentStep > 1 ? `<button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.4);" id="calc-prev">${d.backBtn}</button>` : ''}
-            ${currentStep < 3 ? `<button class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700;" id="calc-next">${d.nextBtn}</button>` : ''}
-            ${currentStep === 3 ? `<a href="#kontakt" class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700;">${d.quoteBtn}</a>` : ''}
+          <div style="display: flex; ${currentStep === 3 ? 'flex-direction: column; width: 100%; max-width: 280px;' : ''} gap: 0.6rem;">
+            ${currentStep > 1 ? `<button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.4); justify-content:center;" id="calc-prev">${d.backBtn}</button>` : ''}
+            ${currentStep < 3 ? `<button class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700; justify-content:center;" id="calc-next">${d.nextBtn}</button>` : ''}
+            ${currentStep === 3 ? `<a href="#kontakt" class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700; justify-content:center; text-align:center;">${d.quoteBtn}</a>` : ''}
           </div>
         </div>
       </div>
