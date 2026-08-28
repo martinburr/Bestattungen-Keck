@@ -485,6 +485,20 @@ img {
   color: var(--color-text-muted);
 }
 
+/* Bestattungsvorsorge Responsive Grid */
+.vorsorge-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 /* USP Section */
 .usp-section {
   background-color: var(--color-bg-surface);
@@ -881,6 +895,10 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
+  .vorsorge-grid {
+    grid-template-columns: 1fr;
+  }
+
   .mobile-nav-toggle {
     display: flex;
   }
@@ -912,6 +930,10 @@ footer a:hover {
 }
 
 @media (max-width: 600px) {
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+
   .top-bar .container {
     flex-direction: column;
     gap: 0.4rem;
