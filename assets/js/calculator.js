@@ -137,10 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <span style="font-size: 0.85rem; opacity: 0.8; display: block;">${d.estimateLabel}</span>
             <span class="calc-price-display">ab € ${total.toLocaleString('de-DE')},-</span>
           </div>
-          <div style="display: flex; ${currentStep === 3 ? 'flex-direction: column; width: 100%; max-width: 280px;' : ''} gap: 0.6rem;">
-            ${currentStep > 1 ? `<button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.4); justify-content:center;" id="calc-prev">${d.backBtn}</button>` : ''}
-            ${currentStep < 3 ? `<button class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700; justify-content:center;" id="calc-next">${d.nextBtn}</button>` : ''}
-            ${currentStep === 3 ? `<a href="#kontakt" class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700; justify-content:center; text-align:center;">${d.quoteBtn}</a>` : ''}
+          <div class="calc-btn-group ${currentStep === 3 ? 'step-3' : ''}">
+            ${currentStep > 1 ? `<button class="btn btn-outline" style="color:#FFF; border-color:rgba(255,255,255,0.4);" id="calc-prev">${d.backBtn}</button>` : ''}
+            ${currentStep < 3 ? `<button class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700;" id="calc-next">${d.nextBtn}</button>` : ''}
+            ${currentStep === 3 ? `<a href="#kontakt" class="btn" style="background:var(--color-accent); color:var(--color-primary-dark); font-weight:700;">${d.quoteBtn}</a>` : ''}
           </div>
         </div>
       </div>
@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <h3 style="margin-bottom:0.5rem;">${d.step3Title}</h3>
       <p style="font-size:0.9rem; margin-bottom:1rem;">${d.step3Lead}</p>
 
-      <div style="background:var(--color-bg-main); padding:1rem; border-radius:var(--radius-sm); margin-bottom:1rem; border:1px solid var(--color-border);">
-        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-weight:700;">
+      <div style="background:var(--color-bg-main); padding:1rem; border-radius:var(--radius-sm); margin-bottom:1rem; border:1px solid var(--color-border); color:var(--color-text-main);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-weight:700; color:var(--color-primary-dark);">
           <span>${selectedBurial.title}</span>
           <span>€ ${selectedBurial.price},-</span>
         </div>
