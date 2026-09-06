@@ -575,7 +575,7 @@ img {
 }
 
 .burial-card-body {
-  padding: var(--space-lg);
+  padding: 1.8rem var(--space-lg);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -583,7 +583,9 @@ img {
 
 .burial-card h3 {
   font-size: 1.4rem;
+  line-height: 1.35;
   margin-block: 0.5rem 0.6rem;
+  min-height: 3.8rem;
 }
 
 .burial-card p {
