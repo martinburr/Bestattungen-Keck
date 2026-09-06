@@ -582,10 +582,10 @@ img {
 }
 
 .burial-card h3 {
-  font-size: 1.4rem;
-  line-height: 1.35;
+  font-size: 1.25rem;
+  line-height: 1.3;
   margin-block: 0.5rem 0.6rem;
-  min-height: 3.8rem;
+  min-height: 3.4rem;
 }
 
 .burial-card p {
