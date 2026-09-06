@@ -253,9 +253,15 @@
   },
   "modalEditCondolence": {
     "title": "✏️ Edit Condolence Entry",
-    "labelDeceased": "In Memory of *",
-    "labelAuthor": "Condolences from *",
-    "labelMessage": "Condolence Text / Comfort Words *",
+    "labelDeceased": "In Memory Of *",
+    "labelAuthor": "Condolence From *",
+    "labelMessage": "Condolence Text / Words *",
     "submitBtn": "💾 Save Changes"
+  },
+  "adminActions": {
+    "logoutBtn": "🚪 Logout Admin",
+    "sessionActive": "🔑 Admin Mode Active",
+    "edit": "✏️ Edit",
+    "delete": "🗑️ Delete"
   }
 }

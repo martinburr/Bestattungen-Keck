@@ -467,6 +467,9 @@
           <span class="badge" style="background: var(--color-accent-soft); color: var(--color-primary-dark); font-size: 0.9rem;">
             🔥 <span id="candle-count-num">3</span> <span data-i18n="memorial.candlesActive">Kerzen leuchten aktuell</span>
           </span>
+          <button id="admin-logout-candles" class="btn-admin-logout" style="display: none;" data-i18n="adminActions.logoutBtn">
+            🚪 Admin Ausloggen
+          </button>
         </div>
 
         <div class="tribute-grid" id="candle-wall">
@@ -483,6 +486,9 @@
           <span class="badge" style="font-size: 0.9rem;">
             📖 <span id="kondolenz-count-num">2</span> <span data-i18n="memorial.entriesCount">Einträge im Buch</span>
           </span>
+          <button id="admin-logout-kondolenz" class="btn-admin-logout" style="display: none;" data-i18n="adminActions.logoutBtn">
+            🚪 Admin Ausloggen
+          </button>
         </div>
 
         <div id="kondolenz-list" style="max-width: 800px; margin-inline: auto;">
@@ -753,6 +759,14 @@
       </div>
     </div>
   </section>
+
+  <!-- Floating Admin Session Bar -->
+  <div id="admin-session-bar" class="admin-session-bar">
+    <span class="admin-session-badge" data-i18n="adminActions.sessionActive">🔑 Admin-Modus aktiv</span>
+    <button type="button" id="admin-logout-floating-btn" class="btn-admin-logout" data-i18n="adminActions.logoutBtn">
+      🚪 Ausloggen
+    </button>
+  </div>
 
   <!-- Footer -->
   <footer>

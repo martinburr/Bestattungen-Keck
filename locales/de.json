@@ -257,5 +257,11 @@
     "labelAuthor": "Kondoliert von *",
     "labelMessage": "Kondolenztext / Trostworte *",
     "submitBtn": "💾 Änderungen speichern"
+  },
+  "adminActions": {
+    "logoutBtn": "🚪 Admin Ausloggen",
+    "sessionActive": "🔑 Admin-Modus aktiv",
+    "edit": "✏️ Bearbeiten",
+    "delete": "🗑️ Löschen"
   }
 }

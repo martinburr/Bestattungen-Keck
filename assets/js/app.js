@@ -307,13 +307,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Admin Logout Function
+  window.handleAdminLogout = function() {
+    isAdminUnlocked = false;
+    updateAdminButtonsUI();
+    renderCandleWall();
+    renderKondolenzList();
+  };
+
   // Admin Toggle Trigger
   function handleAdminTriggerClick() {
     if (isAdminUnlocked) {
-      isAdminUnlocked = false;
-      updateAdminButtonsUI();
-      renderCandleWall();
-      renderKondolenzList();
+      window.handleAdminLogout();
     } else {
       pendingEditTarget = null;
       if (adminAuthError) adminAuthError.style.display = 'none';
@@ -323,13 +328,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateAdminButtonsUI() {
-    const text = isAdminUnlocked ? '🔓 Admin aktiv' : '✏️ Admin / Bearbeiten';
-    if (openAdminCandlesBtn) openAdminCandlesBtn.textContent = text;
-    if (openAdminKondolenzBtn) openAdminKondolenzBtn.textContent = text;
+    const adminSessionBar = document.getElementById('admin-session-bar');
+    if (adminSessionBar) {
+      if (isAdminUnlocked) {
+        adminSessionBar.classList.add('active');
+      } else {
+        adminSessionBar.classList.remove('active');
+      }
+    }
+
+    const logoutCandlesBtn = document.getElementById('admin-logout-candles');
+    if (logoutCandlesBtn) {
+      logoutCandlesBtn.style.display = isAdminUnlocked ? 'inline-flex' : 'none';
+    }
+
+    const logoutKondolenzBtn = document.getElementById('admin-logout-kondolenz');
+    if (logoutKondolenzBtn) {
+      logoutKondolenzBtn.style.display = isAdminUnlocked ? 'inline-flex' : 'none';
+    }
   }
 
-  if (openAdminCandlesBtn) openAdminCandlesBtn.addEventListener('click', handleAdminTriggerClick);
-  if (openAdminKondolenzBtn) openAdminKondolenzBtn.addEventListener('click', handleAdminTriggerClick);
+  const floatingLogoutBtn = document.getElementById('admin-logout-floating-btn');
+  if (floatingLogoutBtn) floatingLogoutBtn.addEventListener('click', window.handleAdminLogout);
+
+  const logoutCandlesBtn = document.getElementById('admin-logout-candles');
+  if (logoutCandlesBtn) logoutCandlesBtn.addEventListener('click', window.handleAdminLogout);
+
+  const logoutKondolenzBtn = document.getElementById('admin-logout-kondolenz');
+  if (logoutKondolenzBtn) logoutKondolenzBtn.addEventListener('click', window.handleAdminLogout);
 
   // Admin Auth Form Submit
   if (adminAuthForm) {

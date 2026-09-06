@@ -1092,3 +1092,57 @@ footer a:hover {
     justify-content: center;
   }
 }
+
+/* Floating Admin Session Bar & Logout Buttons */
+.admin-session-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: var(--color-primary-dark, #1a3628);
+  color: #ffffff;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-md, 8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-accent, #c5a059);
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+  animation: adminBarSlideUp 0.3s ease-out;
+}
+
+.admin-session-bar.active {
+  display: flex;
+}
+
+@keyframes adminBarSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.admin-session-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent, #c5a059);
+}
+
+.btn-admin-logout {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm, 6px);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-admin-logout:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
