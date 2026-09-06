@@ -162,6 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const editKondolenzAuthor = document.getElementById('edit-kondolenz-author');
   const editKondolenzMessage = document.getElementById('edit-kondolenz-message');
 
+  function t(key, fallback) {
+    return (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key, fallback) : fallback;
+  }
+
   function renderCandleWall() {
     if (!candleWall) return;
 
@@ -175,6 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       candleWall.classList.remove('scrollable-list');
     }
+
+    const editText = t('adminActions.edit', '✏️ Bearbeiten');
+    const deleteText = t('adminActions.delete', '🗑️ Löschen');
 
     candleWall.innerHTML = candles.map(c => `
       <div class="tribute-card" id="candle-card-${c.id}">
@@ -199,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div class="admin-card-actions">
-          <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('candle', '${c.id}')">✏️ Bearbeiten</button>
-          ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteCandle('${c.id}')">🗑️ Löschen</button>` : ''}
+          <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('candle', '${c.id}')">${editText}</button>
+          ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteCandle('${c.id}')">${deleteText}</button>` : ''}
         </div>
       </div>
     `).join('');
@@ -250,6 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
       kondolenzList.classList.remove('scrollable-list');
     }
 
+    const editText = t('adminActions.edit', '✏️ Bearbeiten');
+    const deleteText = t('adminActions.delete', '🗑️ Löschen');
+
     kondolenzList.innerHTML = kondolenzEntries.map(k => `
       <div class="kondolenz-card" id="kondolenz-entry-${k.id}" style="background: var(--color-bg-surface); padding: var(--space-md); border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
@@ -266,8 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ✍️ Kondoliert von: ${escapeHtml(k.author)}
           </div>
           <div class="admin-card-actions" style="margin-top: 0; padding-top: 0; border-top: none;">
-            <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('kondolenz', '${k.id}')">✏️ Bearbeiten</button>
-            ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteKondolenz('${k.id}')">🗑️ Löschen</button>` : ''}
+            <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('kondolenz', '${k.id}')">${editText}</button>
+            ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteKondolenz('${k.id}')">${deleteText}</button>` : ''}
           </div>
         </div>
       </div>
@@ -363,7 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.deleteCandle = function(id) {
     const item = candles.find(c => c.id === id);
     if (!item) return;
-    if (confirm(`Möchten Sie die Gedenkkerze für "${item.deceased}" wirklich löschen?`)) {
+    const msg = t('adminActions.confirmDeleteCandle', `Möchten Sie die Gedenkkerze für "${item.deceased}" wirklich löschen?`);
+    if (confirm(msg)) {
       candles = candles.filter(c => c.id !== id);
       localStorage.setItem('keck_lit_candles', JSON.stringify(candles));
       renderCandleWall();
@@ -384,12 +395,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.deleteKondolenz = function(id) {
     const item = kondolenzEntries.find(k => k.id === id);
     if (!item) return;
-    if (confirm(`Möchten Sie den Kondolenzbucheintrag für "${item.deceased}" wirklich löschen?`)) {
+    const msg = t('adminActions.confirmDeleteCondolence', `Möchten Sie den Kondolenzbucheintrag für "${item.deceased}" wirklich löschen?`);
+    if (confirm(msg)) {
       kondolenzEntries = kondolenzEntries.filter(k => k.id !== id);
       localStorage.setItem('keck_kondolenz_entries', JSON.stringify(kondolenzEntries));
       renderKondolenzList();
     }
   };
+
+  // Listen to language change to re-render card buttons in the target language
+  window.addEventListener('languageChanged', () => {
+    renderCandleWall();
+    renderKondolenzList();
+  });
 
   // Submit Edit Candle Form
   if (editCandleForm) {

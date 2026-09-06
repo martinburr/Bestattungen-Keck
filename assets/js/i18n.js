@@ -49,6 +49,11 @@ class I18nEngine {
     return path.split('.').reduce((prev, curr) => (prev && prev[curr] !== undefined ? prev[curr] : null), obj);
   }
 
+  t(keyPath, fallback = '') {
+    const val = this.getNestedValue(this.translations, keyPath);
+    return val !== null && val !== undefined ? val : fallback;
+  }
+
   bindLanguageSwitcher() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {

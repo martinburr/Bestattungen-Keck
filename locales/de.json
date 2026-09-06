@@ -228,5 +228,33 @@
     "rights": "© 2026 Bestattungen Joachim Keck. Alle Rechte vorbehalten.",
     "privacy": "Datenschutz",
     "impressum": "Impressum"
+  },
+  "adminActions": {
+    "edit": "✏️ Bearbeiten",
+    "delete": "🗑️ Löschen",
+    "confirmDeleteCandle": "Möchten Sie die Gedenkkerze wirklich löschen?",
+    "confirmDeleteCondolence": "Möchten Sie diesen Kondolenzbucheintrag wirklich löschen?"
+  },
+  "adminAuth": {
+    "title": "🔒 Admin-Freischaltung",
+    "desc": "Geben Sie das Admin-Passwort ein, um Bearbeiten- und Löschfunktionen freizuschalten.",
+    "labelPassword": "Admin-Passwort *",
+    "phPassword": "Passwort eingeben",
+    "errorMessage": "Falsches Passwort! Bitte versuchen Sie es erneut.",
+    "submitBtn": "🔓 Freischalten"
+  },
+  "modalEditCandle": {
+    "title": "✏️ Kerze bearbeiten",
+    "labelDeceased": "Gedenken an *",
+    "labelAuthor": "Absender / Von *",
+    "labelMessage": "Gedenkspruch / Nachricht *",
+    "submitBtn": "💾 Änderungen speichern"
+  },
+  "modalEditCondolence": {
+    "title": "✏️ Kondolenzbucheintrag bearbeiten",
+    "labelDeceased": "In Gedenken an *",
+    "labelAuthor": "Kondoliert von *",
+    "labelMessage": "Kondolenztext / Trostworte *",
+    "submitBtn": "💾 Änderungen speichern"
   }
 }

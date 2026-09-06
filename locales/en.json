@@ -228,5 +228,33 @@
     "rights": "© 2026 Bestattungen Joachim Keck. All rights reserved.",
     "privacy": "Privacy Policy",
     "impressum": "Legal Notice"
+  },
+  "adminActions": {
+    "edit": "✏️ Edit",
+    "delete": "🗑️ Delete",
+    "confirmDeleteCandle": "Are you sure you want to delete this memorial candle?",
+    "confirmDeleteCondolence": "Are you sure you want to delete this condolence entry?"
+  },
+  "adminAuth": {
+    "title": "🔒 Admin Unlock",
+    "desc": "Enter the admin password to unlock editing and deletion features.",
+    "labelPassword": "Admin Password *",
+    "phPassword": "Enter password",
+    "errorMessage": "Incorrect password! Please try again.",
+    "submitBtn": "🔓 Unlock"
+  },
+  "modalEditCandle": {
+    "title": "✏️ Edit Candle",
+    "labelDeceased": "In Memory of *",
+    "labelAuthor": "Sender / From *",
+    "labelMessage": "Memorial Quote / Message *",
+    "submitBtn": "💾 Save Changes"
+  },
+  "modalEditCondolence": {
+    "title": "✏️ Edit Condolence Entry",
+    "labelDeceased": "In Memory of *",
+    "labelAuthor": "Condolences from *",
+    "labelMessage": "Condolence Text / Comfort Words *",
+    "submitBtn": "💾 Save Changes"
   }
 }
