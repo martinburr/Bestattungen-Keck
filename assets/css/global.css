@@ -878,7 +878,7 @@ img {
 }
 
 #kondolenz-list.scrollable-list {
-  max-height: 380px;
+  max-height: 465px;
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
