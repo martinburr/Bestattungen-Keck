@@ -1,0 +1,51 @@
+# Bestattungen Joachim Keck - Apache Server Configuration & SEO Redirects
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # 2. Force non-WWW (or WWW consistency)
+  RewriteCond %{HTTP_HOST} ^www\.bestatter-keck\.de [NC]
+  RewriteRule ^(.*)$ https://bestatter-keck.de/$1 [R=301,L]
+
+  # 3. SEO 301 Redirects from Old WordPress URLs to New Static Anchors & Pages
+  Redirect 301 /trauerfall/ https://bestatter-keck.de/#trauerfall
+  Redirect 301 /grabarten/ https://bestatter-keck.de/#bestattungsarten
+  Redirect 301 /bestattungsvorsorge/ https://bestatter-keck.de/#vorsorge
+  Redirect 301 /kosten/ https://bestatter-keck.de/#rechner
+  Redirect 301 /kontakt/ https://bestatter-keck.de/#kontakt
+  Redirect 301 /kontakt-2/ https://bestatter-keck.de/#kontakt
+  Redirect 301 /ueber-uns/ https://bestatter-keck.de/#vorteile
+  Redirect 301 /impressum/ https://bestatter-keck.de/impressum.html
+  Redirect 301 /datenschutz/ https://bestatter-keck.de/datenschutz.html
+  Redirect 301 /trauerdrucksachen/ https://bestatter-keck.de/#bestattungsarten
+  Redirect 301 /wohnungsaufloesungen/ https://bestatter-keck.de/#kontakt
+  Redirect 301 /freie-trauerreden/ https://bestatter-keck.de/#bestattungsarten
+  Redirect 301 /abmeldungen/ https://bestatter-keck.de/#trauerfall
+  Redirect 301 /moderne-trauerkultur/ https://bestatter-keck.de/#vorteile
+  Redirect 301 /aktuelles/ https://bestatter-keck.de/
+  Redirect 301 /ueber-uns/links-partner/ https://bestatter-keck.de/#vorteile
+</IfModule>
+
+# Performance & Gzip Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# Browser Caching Header
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
