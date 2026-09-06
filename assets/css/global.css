@@ -859,6 +859,76 @@ img {
   100% { transform: scale(0.98) rotate(-1deg); opacity: 0.9; }
 }
 
+/* Scrollable Container for 4+ items */
+.tribute-grid.scrollable-list {
+  max-height: 540px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scroll-behavior: smooth;
+}
+
+#kondolenz-list.scrollable-list {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.scrollable-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollable-list::-webkit-scrollbar-track {
+  background: var(--color-bg-subtle, #f3f4f6);
+  border-radius: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+  background: var(--color-accent-gold, #c5a059);
+  border-radius: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark, #1a3628);
+}
+
+/* Admin Card Action Buttons */
+.admin-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--color-border);
+  justify-content: flex-end;
+}
+
+.btn-admin-action {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-surface);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-admin-action.edit:hover {
+  background: var(--color-accent-soft, #fdf6e7);
+  border-color: var(--color-accent-gold, #c5a059);
+  color: var(--color-primary-dark);
+}
+
+.btn-admin-action.delete:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+  color: #dc2626;
+}
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;

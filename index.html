@@ -433,6 +433,9 @@
           <span class="badge" style="background: var(--color-accent-soft); color: var(--color-primary-dark); font-size: 0.9rem;">
             🔥 <span id="candle-count-num">3</span> <span data-i18n="memorial.candlesActive">Kerzen leuchten aktuell</span>
           </span>
+          <button id="open-admin-candles-btn" class="btn btn-outline admin-trigger-btn" style="font-size: 0.9rem; padding: 0.6rem 1.2rem; border-color: var(--color-primary-dark); color: var(--color-primary-dark);">
+            ✏️ Bearbeiten
+          </button>
         </div>
 
         <div class="tribute-grid" id="candle-wall">
@@ -449,6 +452,9 @@
           <span class="badge" style="font-size: 0.9rem;">
             📖 <span id="kondolenz-count-num">2</span> <span data-i18n="memorial.entriesCount">Einträge im Buch</span>
           </span>
+          <button id="open-admin-kondolenz-btn" class="btn btn-outline admin-trigger-btn" style="font-size: 0.9rem; padding: 0.6rem 1.2rem; border-color: var(--color-primary-dark); color: var(--color-primary-dark);">
+            ✏️ Bearbeiten
+          </button>
         </div>
 
         <div id="kondolenz-list" style="max-width: 800px; margin-inline: auto;">
@@ -543,6 +549,102 @@
 
         <button type="submit" class="btn btn-primary" style="justify-content: center; padding: 0.9rem; font-size: 1rem; margin-top: 0.5rem;" data-i18n="modalCondolence.submitBtn">
           Eintrag im Kondolenzbuch veröffentlichen
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Admin Passwort Authentifizierung -->
+  <div class="modal-overlay" id="admin-auth-modal">
+    <div class="modal-card" style="max-width: 420px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+          🔒 Admin-Freischaltung
+        </h3>
+        <button id="close-admin-auth-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-muted);">&times;</button>
+      </div>
+
+      <p style="font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--color-text-muted);">
+        Geben Sie das Admin-Passwort ein, um Bearbeiten- und Löschfunktionen freizuschalten.
+      </p>
+
+      <form id="admin-auth-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Admin-Passwort *</label>
+          <input type="password" id="admin-password-input" required placeholder="Passwort eingeben" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;">
+          <div id="admin-auth-error" style="color: #dc2626; font-size: 0.85rem; margin-top: 0.4rem; display: none;">Falsches Passwort! Bitte versuchen Sie es erneut.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="justify-content: center; padding: 0.8rem; font-size: 1rem; margin-top: 0.3rem;">
+          🔓 Freischalten
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Kerze bearbeiten -->
+  <div class="modal-overlay" id="edit-candle-modal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+          ✏️ Kerze bearbeiten
+        </h3>
+        <button id="close-edit-candle-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-muted);">&times;</button>
+      </div>
+
+      <form id="edit-candle-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <input type="hidden" id="edit-candle-id">
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Gedenken an *</label>
+          <input type="text" id="edit-candle-deceased" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Absender / Von *</label>
+          <input type="text" id="edit-candle-author" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Gedenkspruch / Nachricht *</label>
+          <textarea id="edit-candle-message" rows="3" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-accent" style="justify-content: center; padding: 0.9rem; font-size: 1rem; margin-top: 0.5rem;">
+          💾 Änderungen speichern
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Kondolenzbucheintrag bearbeiten -->
+  <div class="modal-overlay" id="edit-kondolenz-modal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+          ✏️ Kondolenzbucheintrag bearbeiten
+        </h3>
+        <button id="close-edit-kondolenz-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-muted);">&times;</button>
+      </div>
+
+      <form id="edit-kondolenz-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <input type="hidden" id="edit-kondolenz-id">
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">In Gedenken an *</label>
+          <input type="text" id="edit-kondolenz-deceased" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Kondoliert von *</label>
+          <input type="text" id="edit-kondolenz-author" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Kondolenztext / Trostworte *</label>
+          <textarea id="edit-kondolenz-message" rows="4" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); font-family: inherit;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="justify-content: center; padding: 0.9rem; font-size: 1rem; margin-top: 0.5rem;">
+          💾 Änderungen speichern
         </button>
       </form>
     </div>

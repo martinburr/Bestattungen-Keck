@@ -97,8 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // SYSTEM 1: VIRTUELLE KERZEN
+  // SYSTEM 1: VIRTUELLE KERZEN & KONDOLENZBUCH ADMIN SYSTEM
   // ==========================================================================
+
+  let isAdminUnlocked = false;
 
   const defaultCandles = [
     {
@@ -133,11 +135,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeCandleModalBtn = document.getElementById('close-candle-modal');
   const candleForm = document.getElementById('candle-form');
 
+  // Admin trigger buttons & Auth Modal
+  const openAdminCandlesBtn = document.getElementById('open-admin-candles-btn');
+  const openAdminKondolenzBtn = document.getElementById('open-admin-kondolenz-btn');
+  const adminAuthModal = document.getElementById('admin-auth-modal');
+  const closeAdminAuthModalBtn = document.getElementById('close-admin-auth-modal');
+  const adminAuthForm = document.getElementById('admin-auth-form');
+  const adminPasswordInput = document.getElementById('admin-password-input');
+  const adminAuthError = document.getElementById('admin-auth-error');
+
+  // Edit Candle Modal elements
+  const editCandleModal = document.getElementById('edit-candle-modal');
+  const closeEditCandleModalBtn = document.getElementById('close-edit-candle-modal');
+  const editCandleForm = document.getElementById('edit-candle-form');
+  const editCandleId = document.getElementById('edit-candle-id');
+  const editCandleDeceased = document.getElementById('edit-candle-deceased');
+  const editCandleAuthor = document.getElementById('edit-candle-author');
+  const editCandleMessage = document.getElementById('edit-candle-message');
+
+  // Edit Condolence Modal elements
+  const editKondolenzModal = document.getElementById('edit-kondolenz-modal');
+  const closeEditKondolenzModalBtn = document.getElementById('close-edit-kondolenz-modal');
+  const editKondolenzForm = document.getElementById('edit-kondolenz-form');
+  const editKondolenzId = document.getElementById('edit-kondolenz-id');
+  const editKondolenzDeceased = document.getElementById('edit-kondolenz-deceased');
+  const editKondolenzAuthor = document.getElementById('edit-kondolenz-author');
+  const editKondolenzMessage = document.getElementById('edit-kondolenz-message');
+
   function renderCandleWall() {
     if (!candleWall) return;
 
     if (candleCountNum) {
       candleCountNum.textContent = candles.length;
+    }
+
+    // Scrollable ab 4 Kerzen
+    if (candles.length >= 4) {
+      candleWall.classList.add('scrollable-list');
+    } else {
+      candleWall.classList.remove('scrollable-list');
     }
 
     candleWall.innerHTML = candles.map(c => `
@@ -161,6 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>🕯️ Von: <strong>${escapeHtml(c.author)}</strong></span>
           <span>${escapeHtml(c.time)}</span>
         </div>
+
+        ${isAdminUnlocked ? `
+          <div class="admin-card-actions">
+            <button type="button" class="btn-admin-action edit" onclick="window.openEditCandleModal('${c.id}')">✏️ Bearbeiten</button>
+            <button type="button" class="btn-admin-action delete" onclick="window.deleteCandle('${c.id}')">🗑️ Löschen</button>
+          </div>
+        ` : ''}
       </div>
     `).join('');
   }
@@ -202,6 +245,13 @@ document.addEventListener('DOMContentLoaded', () => {
       kondolenzCountNum.textContent = kondolenzEntries.length;
     }
 
+    // Scrollable ab 4 Einträgen
+    if (kondolenzEntries.length >= 4) {
+      kondolenzList.classList.add('scrollable-list');
+    } else {
+      kondolenzList.classList.remove('scrollable-list');
+    }
+
     kondolenzList.innerHTML = kondolenzEntries.map(k => `
       <div class="kondolenz-card" id="kondolenz-entry-${k.id}">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
@@ -216,6 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
         <div style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600;">
           ✍️ Kondoliert von: ${escapeHtml(k.author)}
         </div>
+
+        ${isAdminUnlocked ? `
+          <div class="admin-card-actions">
+            <button type="button" class="btn-admin-action edit" onclick="window.openEditKondolenzModal('${k.id}')">✏️ Bearbeiten</button>
+            <button type="button" class="btn-admin-action delete" onclick="window.deleteKondolenz('${k.id}')">🗑️ Löschen</button>
+          </div>
+        ` : ''}
       </div>
     `).join('');
   }
@@ -223,6 +280,124 @@ document.addEventListener('DOMContentLoaded', () => {
   function escapeHtml(str) {
     return str.replace(/[&<>"']/g, function(m) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
+  }
+
+  // Admin Toggle Trigger
+  function handleAdminTriggerClick() {
+    if (isAdminUnlocked) {
+      isAdminUnlocked = false;
+      updateAdminButtonsUI();
+      renderCandleWall();
+      renderKondolenzList();
+    } else {
+      if (adminAuthError) adminAuthError.style.display = 'none';
+      if (adminPasswordInput) adminPasswordInput.value = '';
+      if (adminAuthModal) adminAuthModal.classList.add('active');
+    }
+  }
+
+  function updateAdminButtonsUI() {
+    const text = isAdminUnlocked ? '🔓 Admin aktiv' : '✏️ Bearbeiten';
+    if (openAdminCandlesBtn) openAdminCandlesBtn.textContent = text;
+    if (openAdminKondolenzBtn) openAdminKondolenzBtn.textContent = text;
+  }
+
+  if (openAdminCandlesBtn) openAdminCandlesBtn.addEventListener('click', handleAdminTriggerClick);
+  if (openAdminKondolenzBtn) openAdminKondolenzBtn.addEventListener('click', handleAdminTriggerClick);
+
+  // Admin Auth Form Submit
+  if (adminAuthForm) {
+    adminAuthForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pw = adminPasswordInput ? adminPasswordInput.value.trim() : '';
+      if (pw === '1234') {
+        isAdminUnlocked = true;
+        if (adminAuthError) adminAuthError.style.display = 'none';
+        if (adminAuthModal) adminAuthModal.classList.remove('active');
+        updateAdminButtonsUI();
+        renderCandleWall();
+        renderKondolenzList();
+      } else {
+        if (adminAuthError) adminAuthError.style.display = 'block';
+      }
+    });
+  }
+
+  // Window methods for Edit / Delete Candles
+  window.openEditCandleModal = function(id) {
+    const item = candles.find(c => c.id === id);
+    if (!item) return;
+    if (editCandleId) editCandleId.value = item.id;
+    if (editCandleDeceased) editCandleDeceased.value = item.deceased;
+    if (editCandleAuthor) editCandleAuthor.value = item.author;
+    if (editCandleMessage) editCandleMessage.value = item.message.replace(/^[„"]|[“"]$/g, '');
+    if (editCandleModal) editCandleModal.classList.add('active');
+  };
+
+  window.deleteCandle = function(id) {
+    const item = candles.find(c => c.id === id);
+    if (!item) return;
+    if (confirm(`Möchten Sie die Gedenkkerze für "${item.deceased}" wirklich löschen?`)) {
+      candles = candles.filter(c => c.id !== id);
+      localStorage.setItem('keck_lit_candles', JSON.stringify(candles));
+      renderCandleWall();
+    }
+  };
+
+  // Window methods for Edit / Delete Condolence Entries
+  window.openEditKondolenzModal = function(id) {
+    const item = kondolenzEntries.find(k => k.id === id);
+    if (!item) return;
+    if (editKondolenzId) editKondolenzId.value = item.id;
+    if (editKondolenzDeceased) editKondolenzDeceased.value = item.deceased;
+    if (editKondolenzAuthor) editKondolenzAuthor.value = item.author;
+    if (editKondolenzMessage) editKondolenzMessage.value = item.message.replace(/^[„"]|[“"]$/g, '');
+    if (editKondolenzModal) editKondolenzModal.classList.add('active');
+  };
+
+  window.deleteKondolenz = function(id) {
+    const item = kondolenzEntries.find(k => k.id === id);
+    if (!item) return;
+    if (confirm(`Möchten Sie den Kondolenzbucheintrag für "${item.deceased}" wirklich löschen?`)) {
+      kondolenzEntries = kondolenzEntries.filter(k => k.id !== id);
+      localStorage.setItem('keck_kondolenz_entries', JSON.stringify(kondolenzEntries));
+      renderKondolenzList();
+    }
+  };
+
+  // Submit Edit Candle Form
+  if (editCandleForm) {
+    editCandleForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = editCandleId.value;
+      const item = candles.find(c => c.id === id);
+      if (item) {
+        item.deceased = editCandleDeceased.value.trim();
+        item.author = editCandleAuthor.value.trim();
+        const msg = editCandleMessage.value.trim();
+        item.message = `„${msg.replace(/^[„"]|[“"]$/g, '')}“`;
+        localStorage.setItem('keck_lit_candles', JSON.stringify(candles));
+        renderCandleWall();
+      }
+      if (editCandleModal) editCandleModal.classList.remove('active');
+    });
+  }
+
+  // Submit Edit Condolence Form
+  if (editKondolenzForm) {
+    editKondolenzForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = editKondolenzId.value;
+      const item = kondolenzEntries.find(k => k.id === id);
+      if (item) {
+        item.deceased = editKondolenzDeceased.value.trim();
+        item.author = editKondolenzAuthor.value.trim();
+        item.message = editKondolenzMessage.value.trim();
+        localStorage.setItem('keck_kondolenz_entries', JSON.stringify(kondolenzEntries));
+        renderKondolenzList();
+      }
+      if (editKondolenzModal) editKondolenzModal.classList.remove('active');
     });
   }
 
@@ -242,10 +417,24 @@ document.addEventListener('DOMContentLoaded', () => {
     closeKondolenzModalBtn.addEventListener('click', () => kondolenzModal.classList.remove('active'));
   }
 
+  // Close buttons for admin & edit modals
+  if (closeAdminAuthModalBtn && adminAuthModal) {
+    closeAdminAuthModalBtn.addEventListener('click', () => adminAuthModal.classList.remove('active'));
+  }
+  if (closeEditCandleModalBtn && editCandleModal) {
+    closeEditCandleModalBtn.addEventListener('click', () => editCandleModal.classList.remove('active'));
+  }
+  if (closeEditKondolenzModalBtn && editKondolenzModal) {
+    closeEditKondolenzModalBtn.addEventListener('click', () => editKondolenzModal.classList.remove('active'));
+  }
+
   // Outside click close
   window.addEventListener('click', (e) => {
     if (e.target === candleModal) candleModal.classList.remove('active');
     if (e.target === kondolenzModal) kondolenzModal.classList.remove('active');
+    if (e.target === adminAuthModal) adminAuthModal.classList.remove('active');
+    if (e.target === editCandleModal) editCandleModal.classList.remove('active');
+    if (e.target === editKondolenzModal) editKondolenzModal.classList.remove('active');
   });
 
   // Submit Candle Form
