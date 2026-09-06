@@ -863,22 +863,26 @@ img {
 
 /* Scrollable Container for 4+ items */
 .tribute-grid.scrollable-list {
-  max-height: 540px;
+  max-height: 350px;
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent, #c5a059) var(--color-bg-subtle, #f3f4f6);
 }
 
 #kondolenz-list.scrollable-list {
-  max-height: 500px;
+  max-height: 420px;
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent, #c5a059) var(--color-bg-subtle, #f3f4f6);
 }
 
 /* Custom Scrollbar */
 .scrollable-list::-webkit-scrollbar {
-  width: 7px;
+  width: 8px;
 }
 
 .scrollable-list::-webkit-scrollbar-track {
@@ -887,7 +891,7 @@ img {
 }
 
 .scrollable-list::-webkit-scrollbar-thumb {
-  background: var(--color-accent-gold, #c5a059);
+  background: var(--color-accent, #c5a059);
   border-radius: 4px;
 }
 
