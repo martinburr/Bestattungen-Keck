@@ -135,8 +135,9 @@
     "btnLightCandle": "🕯️ Light a Virtual Candle Now",
     "candlesActive": "candles glowing currently",
     "btnWriteCondolence": "✍️ Write Condolence Entry",
-    "entriesCount": "entries in book",
-    "cta": "Find or Create Memorial Page"
+    "entriesCount": "Entries in the book",
+    "cta": "Search / Create Memorial",
+    "livestreamCta": "🔒 Request Access Code & Consultation"
   },
   "modalCandle": {
     "title": "🕯️ Light a Virtual Memorial Candle",

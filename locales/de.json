@@ -136,7 +136,8 @@
     "candlesActive": "Kerzen leuchten aktuell",
     "btnWriteCondolence": "✍️ Kondolenzbucheintrag verfassen",
     "entriesCount": "Einträge im Buch",
-    "cta": "Gedenkseite suchen / erstellen"
+    "cta": "Gedenkseite suchen / erstellen",
+    "livestreamCta": "🔒 Zugangscode & Beratung anfordern"
   },
   "modalCandle": {
     "title": "🕯️ Virtuelle Gedenkkerze entzünden",
