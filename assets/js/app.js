@@ -193,17 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
           </p>
         </div>
 
-        <div style="border-top: 1px solid var(--color-border); padding-top: 0.6rem; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--color-text-light);">
+        <div style="border-top: 1px solid var(--color-border); padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--color-text-light);">
           <span>🕯️ Von: <strong>${escapeHtml(c.author)}</strong></span>
           <span>${escapeHtml(c.time)}</span>
         </div>
 
-        ${isAdminUnlocked ? `
-          <div class="admin-card-actions">
-            <button type="button" class="btn-admin-action edit" onclick="window.openEditCandleModal('${c.id}')">✏️ Bearbeiten</button>
-            <button type="button" class="btn-admin-action delete" onclick="window.deleteCandle('${c.id}')">🗑️ Löschen</button>
-          </div>
-        ` : ''}
+        <div class="admin-card-actions">
+          <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('candle', '${c.id}')">✏️ Bearbeiten</button>
+          ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteCandle('${c.id}')">🗑️ Löschen</button>` : ''}
+        </div>
       </div>
     `).join('');
   }
@@ -253,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     kondolenzList.innerHTML = kondolenzEntries.map(k => `
-      <div class="kondolenz-card" id="kondolenz-entry-${k.id}">
+      <div class="kondolenz-card" id="kondolenz-entry-${k.id}" style="background: var(--color-bg-surface); padding: var(--space-md); border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
           <h4 style="font-size: 1.15rem; color: var(--color-primary-dark);">
             In Gedenken an: <strong>${escapeHtml(k.deceased)}</strong>
@@ -263,16 +261,15 @@ document.addEventListener('DOMContentLoaded', () => {
         <p style="font-size: 0.95rem; font-style: italic; color: var(--color-text-main); margin-bottom: 0.8rem;">
           „${escapeHtml(k.message.replace(/^[„"]|[“"]$/g, ''))}“
         </p>
-        <div style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600;">
-          ✍️ Kondoliert von: ${escapeHtml(k.author)}
-        </div>
-
-        ${isAdminUnlocked ? `
-          <div class="admin-card-actions">
-            <button type="button" class="btn-admin-action edit" onclick="window.openEditKondolenzModal('${k.id}')">✏️ Bearbeiten</button>
-            <button type="button" class="btn-admin-action delete" onclick="window.deleteKondolenz('${k.id}')">🗑️ Löschen</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+          <div style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600;">
+            ✍️ Kondoliert von: ${escapeHtml(k.author)}
           </div>
-        ` : ''}
+          <div class="admin-card-actions" style="margin-top: 0; padding-top: 0; border-top: none;">
+            <button type="button" class="btn-admin-action edit" onclick="window.handleCardEdit('kondolenz', '${k.id}')">✏️ Bearbeiten</button>
+            ${isAdminUnlocked ? `<button type="button" class="btn-admin-action delete" onclick="window.deleteKondolenz('${k.id}')">🗑️ Löschen</button>` : ''}
+          </div>
+        </div>
       </div>
     `).join('');
   }
@@ -283,6 +280,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let pendingEditTarget = null;
+
+  window.handleCardEdit = function(type, id) {
+    if (isAdminUnlocked) {
+      if (type === 'candle') {
+        window.openEditCandleModal(id);
+      } else if (type === 'kondolenz') {
+        window.openEditKondolenzModal(id);
+      }
+    } else {
+      pendingEditTarget = { type, id };
+      if (adminAuthError) adminAuthError.style.display = 'none';
+      if (adminPasswordInput) adminPasswordInput.value = '';
+      if (adminAuthModal) adminAuthModal.classList.add('active');
+    }
+  };
+
   // Admin Toggle Trigger
   function handleAdminTriggerClick() {
     if (isAdminUnlocked) {
@@ -291,6 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderCandleWall();
       renderKondolenzList();
     } else {
+      pendingEditTarget = null;
       if (adminAuthError) adminAuthError.style.display = 'none';
       if (adminPasswordInput) adminPasswordInput.value = '';
       if (adminAuthModal) adminAuthModal.classList.add('active');
@@ -298,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateAdminButtonsUI() {
-    const text = isAdminUnlocked ? '🔓 Admin aktiv' : '✏️ Bearbeiten';
+    const text = isAdminUnlocked ? '🔓 Admin aktiv' : '✏️ Admin / Bearbeiten';
     if (openAdminCandlesBtn) openAdminCandlesBtn.textContent = text;
     if (openAdminKondolenzBtn) openAdminKondolenzBtn.textContent = text;
   }
@@ -318,6 +333,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAdminButtonsUI();
         renderCandleWall();
         renderKondolenzList();
+
+        if (pendingEditTarget) {
+          const target = pendingEditTarget;
+          pendingEditTarget = null;
+          if (target.type === 'candle') {
+            window.openEditCandleModal(target.id);
+          } else if (target.type === 'kondolenz') {
+            window.openEditKondolenzModal(target.id);
+          }
+        }
       } else {
         if (adminAuthError) adminAuthError.style.display = 'block';
       }
