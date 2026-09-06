@@ -863,7 +863,7 @@ img {
 
 /* Scrollable Container for 4+ items */
 .tribute-grid.scrollable-list {
-  max-height: 350px;
+  max-height: 285px;
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
@@ -871,8 +871,14 @@ img {
   scrollbar-color: var(--color-accent, #c5a059) var(--color-bg-subtle, #f3f4f6);
 }
 
+@media (min-width: 768px) {
+  .tribute-grid.scrollable-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 #kondolenz-list.scrollable-list {
-  max-height: 420px;
+  max-height: 380px;
   overflow-y: auto;
   padding-right: 0.5rem;
   scroll-behavior: smooth;
